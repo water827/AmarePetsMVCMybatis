@@ -6,6 +6,7 @@
 <mapper namespace="mapper.board">
 	<resultMap type="boardVO" id="boardResult">
 		<result property="level" column="lvl" />
+		<result property="pro_boardNum" column="pro_boardNum" />
 		<result property="pro_noticeNum" column="pro_noticeNum" />
 		<result property="pro_kind" column="pro_kind" />
 		<result property="pro_gender" column="pro_gender" />
@@ -26,6 +27,7 @@
 		<![CDATA[
 			select * from (
 				select rownum as recNum
+								,pro_boardNum
 								,pro_noticeNum
 								,pro_kind
 								,pro_gender
@@ -42,7 +44,8 @@
 								,user_id
 						from (
 					select
-							 	 pro_noticeNum
+							 	 pro_boardNum
+							 	,pro_noticeNum
 								,pro_kind
 								,pro_gender
 								,pro_age
@@ -64,7 +67,7 @@
 	</select>
 	
 	<select id="selectTotBoards" resultType="int">
-		select count(pro_noticeNum) from pro_board
+		select count(pro_boardNum) from pro_board
 	</select>
 	
 	<select id="selectKeywordSearch" resultType="String" parameterType="String">
@@ -93,8 +96,10 @@
 	
 	<insert id="insertBoard" parameterType="boardVO">
 		<![CDATA[
-			INSERT INTO pro_board (pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
-			VALUES (#{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, #{pro_img}, #{user_id})
+			INSERT INTO pro_board (pro_boardNum, pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
+			VALUES (
+			 (select nvl(max(pro_boardNum)+1, 1) from pro_board)
+			, #{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, #{pro_img}, #{user_id})
 		]]>
 	</insert>
 	
@@ -102,7 +107,7 @@
 		<![CDATA[
 			DELETE FROM pro_board
 			WHERE
-			pro_noticeNum = #{pro_noticeNum}
+			pro_boardNum = #{pro_boardNum}
 		]]>
 	</delete>
 	

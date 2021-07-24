@@ -30,6 +30,7 @@
 
 	<table border="0" align="center" width="80%">
 		<tr align="center" bgcolor="beige">
+			<td><b>글번호</b></td>
 			<td><b>공고번호</b></td>
 			<td><b>품종</b></td>
 			<td><b>성별</b></td>
@@ -50,6 +51,7 @@
 	
 		<c:forEach var="board" items="${boardsList }" varStatus="boardNum">
 			<tr align="center">
+				<td>${board.pro_boardNum }</td>
 				<td>${board.pro_noticeNum }</td>
 				<td>${board.pro_kind }</td>
 				<td>${board.pro_gender }</td>

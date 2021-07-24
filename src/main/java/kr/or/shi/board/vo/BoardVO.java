@@ -9,6 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component("boardVO")
 public class BoardVO {
+	private int pro_boardNum;
+	
+	public int getPro_boardNum() {
+		return pro_boardNum;
+	}
+
+	public void setPro_boardNum(int pro_boardNum) {
+		this.pro_boardNum = pro_boardNum;
+	}
+
 	private String pro_noticeNum;
 	private String pro_kind;
 	private String pro_gender;
