@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- 스프링 TilesConfigurer 클래스를 이용해  tilesConfigurer 빈 생성함. -->
+ 	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+ 		<beans:property name="definitions">
+ 			<beans:list>
+ 				<beans:value>classpath:tiles/*.xml</beans:value>	<!-- tiles의 모든 설정 XML 파일을 읽어 들임 -->
+ 			</beans:list>
+ 		</beans:property>
+ 		<beans:property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+ 	</beans:bean>
+ 
+ 	<!-- 타일즈 뷰리졸버를 사용해 화면 표시함. -->
+ 	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+ 		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
+ 	</beans:bean>
+ 	
+ 	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="2000000" /><!-- 2MB -->
+		<beans:property name="maxInMemorySize" value="2000000" />
+		<beans:property name="defaultEncoding" value="UTF-8">
+		</beans:property>
+	</beans:bean>
+	
+	<context:component-scan base-package="kr.or.shi" />
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*/*.do"/>
+			<beans:bean class="kr.or.shi.common.interceptor.ViewNameInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	
+	
+	
+</beans:beans>

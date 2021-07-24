@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+	<resultMap type="boardVO" id="boardResult">
+		<result property="level" column="lvl" />
+		<result property="pro_noticeNum" column="pro_noticeNum" />
+		<result property="pro_kind" column="pro_kind" />
+		<result property="pro_gender" column="pro_gender" />
+		<result property="pro_age" column="pro_age" />
+		<result property="pro_place" column="pro_place" />
+		<result property="pro_findDate" column="pro_findDate" />
+		<result property="pro_character" column="pro_character" />
+		<result property="pro_neutering" column="pro_neutering" />
+		<result property="pro_registNum" column="pro_registNum" />
+		<result property="pro_state" column="pro_state" />
+		<result property="pro_shelter" column="pro_shelter" />
+		<result property="pro_img" column="pro_img" />
+		<result property="pro_date" column="pro_date" />
+		<result property="user_id" column="user_id" />
+	</resultMap>
+	
+	<select id="selectAllBoards" resultMap="boardResult">
+		<![CDATA[
+			select * from (
+				select rownum as recNum
+								,pro_noticeNum
+								,pro_kind
+								,pro_gender
+								,pro_age
+								,pro_place
+								,pro_findDate
+								,pro_character
+								,pro_neutering
+								,pro_registNum
+								,pro_state
+								,pro_shelter
+								,pro_img
+								,pro_date
+								,user_id
+						from (
+					select
+							 	 pro_noticeNum
+								,pro_kind
+								,pro_gender
+								,pro_age
+								,pro_place
+								,pro_findDate
+								,pro_character
+								,pro_neutering
+								,pro_registNum
+								,pro_state
+								,pro_shelter
+								,pro_img
+								,pro_date
+								,user_id
+							from pro_board
+								)
+							)
+			where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
+		]]>
+	</select>
+	
+	<select id="selectTotBoards" resultType="int">
+		select count(pro_noticeNum) from pro_board
+	</select>
+	
+	<select id="selectKeywordSearch" resultType="String" parameterType="String">
+		<![CDATA[
+			SELECT title FROM pro_board
+			WHERE 
+			(PRO_KIND LIKE '%' || #{keyword} || '%')
+			or
+			(PRO_DATE LIKE '%' || #{searchDate} || '%')
+			ORDER BY pro_date DESC
+		]]>
+	</select>
+	
+	<select id="selectBoardsBySearchWord" resultMap="boardResult" parameterType="boardVO">
+		<![CDATA[
+			SELECT P.* FROM pro_board P
+			WHERE 
+			(P.PRO_KIND LIKE '%' || #{searchWord} || '%')
+			or	
+			(P.PRO_DATE LIKE '%' || #{searchDate} || '%')
+			or	
+			(P.PRO_PLACE LIKE '%' || #{searchPlace} || '%')
+			ORDER BY P.pro_date DESC		
+		]]>
+	</select>
+	
+	<insert id="insertBoard" parameterType="boardVO">
+		<![CDATA[
+			INSERT INTO pro_board (pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
+			VALUES (#{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, #{pro_img}, #{user_id})
+		]]>
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="String">
+		<![CDATA[
+			DELETE FROM pro_board
+			WHERE
+			pro_noticeNum = #{pro_noticeNum}
+		]]>
+	</delete>
+	
+	
+
+</mapper>  

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">		<!-- name: 공통 레이아웃의 뷰 이름 지정. template: 전체 레이아웃을 정하는 jsp 위치 -->
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />	<!-- value: 레이아웃에서 상단(헤더)을 구성하는 JSP 위치 지정 -->
+		<put-attribute name="side" value="/WEB-INF/views/common/side.jsp" />		<!-- value: 레이아웃에서 사이드 메뉴를 구성하는 JSP 위치 지정 -->
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />	<!-- value: 레이아웃에서 하단을 구성하는 JSP 위치 지정 -->
+	</definition>
+	
+	<definition name="/board/listBoards" extends="baseLayout">							<!-- name: 메인 화면의 뷰이름을 지정함. extends: 기본적인 레이아웃은 baseLayout을 상속받음.-->				
+		<put-attribute name="title" value="보호동물" />
+		<put-attribute name="body" value="/WEB-INF/views/board/listBoards.jsp" />		<!-- value: 레이아웃에서 본문을 표시할 JSP 지정함. -->
+	</definition>
+	
+	<definition name="/board/searchBoards" extends="baseLayout">
+		<put-attribute name="title" value="보호동물 검색결과" />
+		<put-attribute name="body" value="/WEB-INF/views/board/searchBoards.jsp" />
+	</definition>
+
+</tiles-definitions>       
+
+
+
+
+
+
+
+
