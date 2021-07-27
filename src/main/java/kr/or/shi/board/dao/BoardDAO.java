@@ -15,7 +15,9 @@ public interface BoardDAO {
 	
 	public int selectTotBoards() throws DataAccessException;
 
-	public int insertBoard(BoardVO boardVO) throws DataAccessException;
+	public int insertNewArticle(Map articleMap) throws DataAccessException;
+	
+	public void insertNewImage(Map articleMap) throws DataAccessException;
 
 	public int deleteBoard(String pro_noticeNum) throws DataAccessException;
 	

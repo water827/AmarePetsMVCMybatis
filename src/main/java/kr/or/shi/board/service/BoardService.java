@@ -11,11 +11,11 @@ import kr.or.shi.board.vo.BoardVO;
 public interface BoardService {
 	public Map listBoards(Map<String, Integer> pagingMap) throws Exception;
 
-	public int addBoard(BoardVO boardVO) throws DataAccessException;
+	public int addNewArticle(Map articleMap) throws Exception;
 
-	public int removeBoard(String pro_noticeNum) throws DataAccessException;
+	public int removeBoard(String pro_noticeNum) throws Exception;
 	
-	public List searchBoard(BoardVO boardVO) throws DataAccessException;
+	public List searchBoard(BoardVO boardVO) throws Exception;
 
 	public List<String> keywordSearch(String keyword) throws Exception;
 
