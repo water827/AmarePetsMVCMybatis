@@ -12,11 +12,11 @@
 	<title>보호동물 등록</title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
-		function readURL(input) {
+		function readURL(input, index) {
 			if(input.files && input.files[0]) {			//input 태그에 첫번째 선택파일이 있을때
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					$('#preview').attr('src', e.target.result);		// input file로 이미지 파일을 선택시 	id가 preview인 <img>태그에 src속성 값에 이미지를 바로 보이도록 변경 
+					$('#preview0').attr('src', e.target.result);		// input file로 이미지 파일을 선택시 	id가 preview인 <img>태그에 src속성 값에 이미지를 바로 보이도록 변경 
 				}
 				reader.readAsDataURL(input.files[0]);				// reader가 File내용을 읽어 DataURL형식의 문자열로 저장
 			}
@@ -29,7 +29,7 @@
 	</style>
 </head>
 <body>
-	<form action="${contextPath}/board/addBoard.do" enctype="multipart/form-data">
+	<form action="${contextPath}/board/addBoard.do" enctype="multipart/form-data" method="post">
 		<h1 class="text_center">보호동물 등록</h1>
 		<table align="center">
 			<tr>
@@ -85,11 +85,11 @@
 			</tr>
 			<tr>
 				<td width="200"><p align="right">미리보기</td>
-				<td width="400"><img alt="미리보기" src="#" width="200" height="200" id="preview" /></td>
+				<td width="400"><img alt="미리보기" src="#" width="200" height="200" id="preview0" /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">사진</td>
-				<td><input type="file" name="pro_img" onchange="readURL(this)" /></td><br/>
+				<td><input type="file" name="imageFileName" onchange="readURL(this, 0)" /></td><br/>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">아이디</td>

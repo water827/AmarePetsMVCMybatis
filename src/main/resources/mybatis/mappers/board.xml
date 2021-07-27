@@ -23,6 +23,8 @@
 		<result property="user_id" column="user_id" />
 	</resultMap>
 	
+	
+	
 	<select id="selectAllBoards" resultMap="boardResult">
 		<![CDATA[
 			select * from (
@@ -94,14 +96,35 @@
 		]]>
 	</select>
 	
-	<insert id="insertBoard" parameterType="boardVO">
+	<select id="selectNewArticleNo" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(pro_boardNum), 0) + 1 FROM pro_board
+		]]>
+	</select>
+	
+	
+	
+	<insert id="insertNewArticle" parameterType="java.util.Map">
 		<![CDATA[
 			INSERT INTO pro_board (pro_boardNum, pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
-			VALUES (
-			 (select nvl(max(pro_boardNum)+1, 1) from pro_board)
-			, #{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, #{pro_img}, #{user_id})
+			VALUES (#{pro_boardNum}, #{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, null, #{user_id})
 		]]>
 	</insert>
+	
+	
+	<select id="selectNewImageFileNo" resultType="int">
+		<![CDATA[
+			SELECT nvl(max(imageFileNo), 0) from t_imageFile
+		]]>
+	</select>
+	
+	<insert id="insertNewImage" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+			INTO t_imageFile (imageFileNo,imageFileName, pro_boardNum, regDate)
+			VALUES (#{item.imageFileNo}, #{item.imageFileName}, #{item.pro_boardNum}, sysdate)
+		</foreach>
+	</insert>
+	
 	
 	<delete id="deleteBoard" parameterType="String">
 		<![CDATA[
